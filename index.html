@@ -78,7 +78,7 @@
       redirect: 'follow'
     };
 
-    fetch("https://blooming-meadow-69578.herokuapp.com/delete", requestOptions)
+    fetch("https://serene-thicket-31811.herokuapp.com/delete", requestOptions)
       .then(response => response.text())
       .then(result =>{  
          if (result == "false") {
@@ -113,7 +113,7 @@
       redirect: 'follow'
     };
   
-    fetch("https://blooming-meadow-69578.herokuapp.com/edit?id="+idUser, requestOptions)
+    fetch("https://serene-thicket-31811.herokuapp.com/edit?id="+idUser, requestOptions)
     
       .then(response => response.text())
       .then(result =>{
@@ -151,7 +151,7 @@
       redirect: 'follow'
     };
 
-    fetch("https://blooming-meadow-69578.herokuapp.com/addUser", requestOptions)
+    fetch("https://serene-thicket-31811.herokuapp.com/addUser", requestOptions)
       .then(response => response.text())
       .then(result => {
 
@@ -167,7 +167,7 @@
   }
 
 
-  fetch('https://blooming-meadow-69578.herokuapp.com/')
+  fetch('https://serene-thicket-31811.herokuapp.com/')
     .then(response => response.json())
     .then(json => {
       var tr = document.createElement('tr');

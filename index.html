@@ -78,12 +78,20 @@
       redirect: 'follow'
     };
 
-    fetch("http://localhost:4000/delete", requestOptions)
+    fetch("https://blooming-meadow-69578.herokuapp.com/delete", requestOptions)
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result =>{  
+         if (result == "false") {
+          alert("Select a Row from Table");
+        } else {
+          alert(" Successfully Deleted !")
+        }
+        console.log(result)
+      
+      
+  })
       .catch(error => console.log('error', error));
   }
-
   function editRow() {
   var idUser=document.getElementById("idUser").value
   var user_Name = document.getElementById("inputName").value;
@@ -105,10 +113,18 @@
       redirect: 'follow'
     };
   
-    fetch("http://localhost:4000/edit?id="+idUser, requestOptions)
+    fetch("https://blooming-meadow-69578.herokuapp.com/edit?id="+idUser, requestOptions)
     
       .then(response => response.text())
-      .then(result => console.log(result))
+      .then(result =>{
+        if (result == "false") {
+          alert("Select a Row from Table");
+        } else {
+          alert(" successfully Edited !")
+        }
+
+         console.log(result)
+        })
       .catch(error => console.log('error', error));
 
   }
@@ -135,7 +151,7 @@
       redirect: 'follow'
     };
 
-    fetch("http://localhost:4000/addUser", requestOptions)
+    fetch("https://blooming-meadow-69578.herokuapp.com/addUser", requestOptions)
       .then(response => response.text())
       .then(result => {
 
@@ -151,7 +167,7 @@
   }
 
 
-  fetch('http://localhost:4000/')
+  fetch('https://blooming-meadow-69578.herokuapp.com/')
     .then(response => response.json())
     .then(json => {
       var tr = document.createElement('tr');

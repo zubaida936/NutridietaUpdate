@@ -13,40 +13,31 @@
 
   <div>
 
-    <form class="row mb-3">
-
-
-      <div class="col-2">
-        <label class="form-label">Id</label>
+    <form >
+        <div  class="col-6">
+          
+        <label class="form-label" >Id</label>
         <input type="text" class="form-control" id="idUser" placeholder="id" readonly>
-      </div>
-
-      <div class="col-2">
+         
         <label class="form-label">Name</label>
-        <input type="text" class="form-control" id="inputName" placeholder="name" 
-        >
-      </div>
-
-
-      <div class="col-2">
+        <input type="text" class="form-control" id="inputName" placeholder="name">
+        
         <label class="form-label">Position</label>
         <input type="text" class="form-control" id="inputPosition" placeholder="position">
-      </div>
-
-      <div class="col-3">
+     
         <label class="form-label">Url</label>
         <input type="url" class="form-control" id="inputUrl" placeholder="https://example.png">
+          
       </div>
 
-    </form>
+      </form>
 
-    <br>
-    <div class="d-grid gap-2 d-md-block">
-
-      <button onclick="deleteRow()" class="btn btn-warning" type="button" >Delete</button>
-      <button onclick="addNewUser()" class="btn btn-danger" type="button">Add</button>
-      <button onclick="editRow()" class="btn btn-info" type="button">Edit</button>
-    </div>
+      <br>
+     <div>
+       <button  onclick="deleteRow()" class="btn btn-warning"  type="button" >Delete</button>
+       <button  onclick="addNewUser()" class="btn btn-danger"  type="button">Add</button>
+       <button onclick="editRow()" class="btn btn-info"  type="button">Edit</button>
+      </div>
   
     <br>
     <!---- <p><a href="client2.html" color:#FA8072 >Get User</a></p> -->

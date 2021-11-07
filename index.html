@@ -4,34 +4,50 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Users</title>
+  <title>Users Data</title>
 </head>
 
 <body>
 
-  <h2> Users Data</h2>
+  <h2> Template Data</h2>
 
   <div>
 
-    <form>
-      <div class="mb-3">
-        <label for="exampleInputEmail1" class="form-label">Email address</label>
-        <input type="email" class="form-control" id="email" aria-describedby="emailHelp">
-        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+    <form class="row mb-3">
+
+
+      <div class="col-2">
+        <label class="form-label">Id</label>
+        <input type="text" class="form-control" id="idUser" placeholder="id" readonly>
       </div>
-      <div class="mb-3">
-        <label for="exampleInputPassword1" class="form-label">Password</label>
-        <input type="password" class="form-control" id="passw">
+
+      <div class="col-2">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" id="inputName" placeholder="name" 
+        >
       </div>
+
+
+      <div class="col-2">
+        <label class="form-label">Position</label>
+        <input type="text" class="form-control" id="inputPosition" placeholder="position">
+      </div>
+
+      <div class="col-3">
+        <label class="form-label">Url</label>
+        <input type="url" class="form-control" id="inputUrl" placeholder="https://example.png">
+      </div>
+
     </form>
 
     <br>
     <div class="d-grid gap-2 d-md-block">
-      <button onclick="getUserByEmail()" class="btn btn-info" type="button">Get User</button>
-      <button onclick="Authenticate()" class="btn btn-danger" type="button">Authenticate</button>
-      <button onclick="addNewUser()" class="btn btn-warning" type="button">Add user</button>
-    </div>
 
+      <button onclick="deleteRow()" class="btn btn-warning" type="button" >Delete</button>
+      <button onclick="addNewUser()" class="btn btn-danger" type="button">Add</button>
+      <button onclick="editRow()" class="btn btn-info" type="button">Edit</button>
+    </div>
+  
     <br>
     <!---- <p><a href="client2.html" color:#FA8072 >Get User</a></p> -->
   </div>
@@ -42,8 +58,100 @@
   integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 <link rel="stylesheet" href="style.css">
 <script>
-  // function getTableOfUsers() {
-  fetch('https://arcane-stream-69379.herokuapp.com/Users')
+
+  function deleteRow() {
+
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "name": document.getElementById("inputName").value,
+      "position": document.getElementById("inputPosition").value,
+      "url": document.getElementById("inputUrl").value
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:4000/delete", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+  }
+
+  function editRow() {
+  var idUser=document.getElementById("idUser").value
+  var user_Name = document.getElementById("inputName").value;
+    var user_position = document.getElementById("inputPosition").value;
+    var url = document.getElementById("inputUrl").value;
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "name": user_Name,
+      "position": user_position,
+      "url": url
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+  
+    fetch("http://localhost:4000/edit?id="+idUser, requestOptions)
+    
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+  }
+
+
+  function addNewUser() {
+    var user_Name = document.getElementById("inputName").value;
+    var user_position = document.getElementById("inputPosition").value;
+    var url = document.getElementById("inputUrl").value;
+
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    var raw = JSON.stringify({
+      "name": user_Name,
+      "position": user_position,
+      "url": url
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: myHeaders,
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("http://localhost:4000/addUser", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+
+        if (result == "false") {
+          alert("missing entries");
+        } else {
+          alert(" successfully added !")
+        }
+        console.log(result)
+      })
+      .catch(error => console.log('error', error));
+
+  }
+
+
+  fetch('http://localhost:4000/')
     .then(response => response.json())
     .then(json => {
       var tr = document.createElement('tr');
@@ -56,108 +164,30 @@
       }
 
       for (const object of json) {
-        // if (object.email != "" && object.password != "")
         var tr = document.createElement('tr');
         myTable.appendChild(tr);
-
         for (const value in object) {
-          // if (object[value] != "")
           var td = document.createElement('td');
           td.innerHTML = object[value];
           tr.appendChild(td);
         }
       }
 
+
+      var tbl = document.getElementById("myTable");
+      for (var x = 1; x < tbl.rows.length; x++) {
+        tbl.rows[x].onclick = function () {
+        
+          document.getElementById("idUser").value = this.rowIndex+1;
+          document.getElementById("inputName").value = this.cells[0].innerHTML;
+          document.getElementById("inputPosition").value = this.cells[1].innerHTML;
+          document.getElementById("inputUrl").value = this.cells[2].innerHTML;
+
+
+        }
+      }
+
     })
-  // }
-  function getUserByEmail() {
-    var user_email = document.getElementById("email").value;
-    let url = new URL('https://arcane-stream-69379.herokuapp.com/getUser');
-    url.searchParams.set('email', user_email);
-    fetch(url)
-      .then(response => response.json())
-      .then(json => {
-
-        if (json[0].email == user_email) {
-          alert(" email:" + user_email + "   " + "passord:" + json[0].password);
-        }
-        else if (user_email == "") {
-          alert("enter email !")
-        } else {
-          alert("user doesn't exist");
-        }
-
-      })
-  }
-
-  function addNewUser() {
-    var user_email = document.getElementById("email").value;
-    var user_password = document.getElementById("passw").value;
-
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      "email": user_email,
-      "password": user_password
-    });
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-
-    fetch("https://arcane-stream-69379.herokuapp.com/addUser", requestOptions)
-      .then(response => response.text())
-      .then(result => {
-
-        if (result == "false") {
-          alert("missing entries");
-        } else {
-          alert("User successfully added !")
-        }
-        console.log(result)
-      })
-      .catch(error => console.log('error', error));
-
-  }
-
-  function Authenticate() {
-    var user_email = document.getElementById("email").value;
-    var user_password = document.getElementById("passw").value;
-    var myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    var raw = JSON.stringify({
-      "email": user_email,
-      "password": user_password
-    });
-
-    var requestOptions = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow'
-    };
-
-    fetch("https://arcane-stream-69379.herokuapp.com/AuthenticateUser", requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        if (user_email == "" || user_password == "") {
-          alert("missing entries !")
-        } else if (result == "false") {
-          alert("wrong user and/or password");
-        } else {
-          alert("Right")
-        }
-
-        console.log(result)
-
-      })
-      .catch(error => console.log('error', error));
-  }
 
 </script>
 
